@@ -11,20 +11,25 @@ import com.thoughtworks.todo_list.repository.user.UserRepositoryImpl;
 
 public class MainApplication extends Application {
     private UserRepository userRepository;
-
+    private AppDatabase appDatabase;
     @Override
     public void onCreate() {
         super.onCreate();
         userRepository = new UserRepositoryImpl(userDataSource());
     }
 
-
     public UserDataSource userDataSource() {
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, this.getClass().getSimpleName()).build();
-        return db.userDBDataSource();
+        appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, this.getClass().getSimpleName()).build();
+        return appDatabase.userDBDataSource();
     }
 
     public UserRepository userRepository() {
         return userRepository;
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        appDatabase.close();
     }
 }

@@ -34,18 +34,20 @@ public class LoginViewModel extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void login(String username, String password) {
-        userRepository.findByName(username).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete(() -> loginResult.setValue(new LoginResult(R.string.login_failed_username)))
+        userRepository.findByName(username)
+                .subscribeOn(Schedulers.io())   //指定发生在io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                // .doOnComplete(() -> loginResult.setValue(new LoginResult(R.string.login_failed_username)))
                 .subscribe(u -> {
                     if (u == null) {
-                        loginResult.postValue(new LoginResult(R.string.login_failed_username));
+                        loginResult.setValue(new LoginResult(R.string.login_failed_username));  //mainThread应该用set？
                         return;
                     }
                     if (u.getPassword().equals(Encryptor.md5(password))) {
-                        loginResult.postValue(new LoginResult(new LoggedInUserView(u.getName())));
+                        loginResult.setValue(new LoginResult(new LoggedInUserView(u.getName())));
                         return;
                     }
-                    loginResult.postValue(new LoginResult(R.string.login_failed_password));
+                    loginResult.setValue(new LoginResult(R.string.login_failed_password));
                 });
     }
 

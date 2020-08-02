@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.putExtra("user", usernameEditText.getText().toString());
                 startActivity(intent);
-                finish();
+                finish() ;
             }
         });
 

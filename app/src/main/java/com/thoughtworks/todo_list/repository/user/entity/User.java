@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import okhttp3.RequestBody;
+
 @Entity
 public class User {
     @PrimaryKey

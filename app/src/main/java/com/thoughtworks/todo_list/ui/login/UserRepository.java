@@ -9,4 +9,6 @@ public interface UserRepository {
     Maybe<User> findByName(String name);
 
     Completable save(User user);
+
+    void initUserInfoFromNetwork();
 }
