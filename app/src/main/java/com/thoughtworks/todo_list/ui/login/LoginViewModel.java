@@ -37,7 +37,7 @@ public class LoginViewModel extends ViewModel {
         userRepository.findByName(username)
                 .subscribeOn(Schedulers.io())   //指定发生在io线程
                 .observeOn(AndroidSchedulers.mainThread())
-                // .doOnComplete(() -> loginResult.setValue(new LoginResult(R.string.login_failed_username)))
+                .doOnComplete(() -> loginResult.setValue(new LoginResult(R.string.login_failed_username)))
                 .subscribe(u -> {
                     if (u == null) {
                         loginResult.setValue(new LoginResult(R.string.login_failed_username));  //mainThread应该用set？
