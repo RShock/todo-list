@@ -17,7 +17,7 @@
         </activity>
 
         <activity
-            android:name="com.thoughtworks.todo_list.ui.login.HomeActivity"
+            android:name="com.thoughtworks.todo_list.ui.todolist.HomeActivity"
             android:label="@string/home_page_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

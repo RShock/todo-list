@@ -57,6 +57,7 @@
         android:textColor="@android:color/white"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/todoList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="90dp"
