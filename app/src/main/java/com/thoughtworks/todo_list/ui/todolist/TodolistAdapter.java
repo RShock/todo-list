@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.thoughtworks.todo_list.R;
-import com.thoughtworks.todo_list.ui.todolist.model.Todo;
+import com.thoughtworks.todo_list.repository.todo.entity.Todo;
 
 import java.util.List;
 

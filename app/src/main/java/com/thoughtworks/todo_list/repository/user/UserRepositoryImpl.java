@@ -24,8 +24,7 @@ public class UserRepositoryImpl implements UserRepository {
         return dataSource.save(user);
     }
 
-    @Override
-    public void initUserInfoFromNetwork() {
+    private void initUserInfoFromNetwork() {
         User user = new User();
         user.setId(1);
         user.setName("android");

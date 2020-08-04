@@ -2,34 +2,38 @@ package com.thoughtworks.todo_list.ui.todolist;
 
 import android.icu.util.Calendar;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.thoughtworks.todo_list.MainApplication;
 import com.thoughtworks.todo_list.R;
-import com.thoughtworks.todo_list.ui.todolist.model.Todo;
+import com.thoughtworks.todo_list.repository.todo.entity.Todo;
+import com.thoughtworks.todo_list.ui.login.LoginViewModel;
+import com.thoughtworks.todo_list.ui.login.UserRepository;
 
-import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static androidx.recyclerview.widget.RecyclerView.HORIZONTAL;
 import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
 
 public class HomeActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
+    private TodoListViewModel todoListViewModel;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         recyclerView = findViewById(R.id.todoList);
+        todoListViewModel = obtainViewModel();
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
@@ -57,5 +61,12 @@ public class HomeActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
+    }
+
+    public TodoListViewModel obtainViewModel() {
+        TodoRepository todoRepository = (((MainApplication) getApplicationContext())).todoRepository();
+        todoListViewModel = new ViewModelProvider(this).get(TodoListViewModel.class);
+        todoListViewModel.setTodoRepository(todoRepository);
+        return todoListViewModel;
     }
 }
