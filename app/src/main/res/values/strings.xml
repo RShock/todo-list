@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Todolist</string>
     <string name="home_page_name">Home</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -12,4 +12,7 @@
     <string name="login_failed_username">"User does not exist"</string>
     <string name="login_failed_password">"Password is invalid"</string>
     <string name="logo">LOGO</string>
+    <string name="default_day">Thursday, 23th</string>
+    <string name="default_month">July</string>
+    <string name="default_task_count">10个任务</string>
 </resources>
