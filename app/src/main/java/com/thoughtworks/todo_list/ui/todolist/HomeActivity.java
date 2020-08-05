@@ -2,6 +2,7 @@ package com.thoughtworks.todo_list.ui.todolist;
 
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,8 +28,9 @@ import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
 public class HomeActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
     FloatingActionButton floatingActionButton;
+    TextView todoCount;
+
     private TodoListViewModel todoListViewModel;
 
     @Override
@@ -36,6 +38,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         recyclerView = findViewById(R.id.todoList);
+        floatingActionButton = findViewById(R.id.addTodo);
+        todoCount = findViewById(R.id.todoCount);
+
         todoListViewModel = obtainViewModel();
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -52,9 +57,10 @@ public class HomeActivity extends AppCompatActivity {
             }
             // 任何变动都应该刷新待办列表
             recyclerView.setAdapter(new TodolistAdapter(todoList.todoList));
+            //TODO: I18n
+            todoCount.setText(String.format("%s%s",todoList.todoList.size(),"个任务"));
         });
 
-        floatingActionButton = findViewById(R.id.addTodo);
         floatingActionButton.setOnClickListener(view -> {
             todoListViewModel.initTodoList();
             // Toast.makeText(this, "test", Toast.LENGTH_LONG).show();

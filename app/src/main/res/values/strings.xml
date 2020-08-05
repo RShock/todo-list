@@ -14,7 +14,7 @@
     <string name="logo">LOGO</string>
     <string name="default_day">Thursday, 23th</string>
     <string name="default_month">July</string>
-    <string name="default_task_count">10个任务</string>
+    <string name="default_task_count">0个任务</string>
     <string name="default_title">TODO默认标题</string>
     <string name="default_time">7:00 am</string>
 </resources>

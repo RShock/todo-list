@@ -46,7 +46,7 @@
         android:textColor="@android:color/white"/>
 
     <TextView
-        android:id="@+id/taskCount"
+        android:id="@+id/todoCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/date1"
