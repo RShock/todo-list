@@ -17,14 +17,14 @@ public class Todo {
     private int id;
     private Boolean completed;
     private String title;
-    private String desc;
+    private String content;
     private Boolean notice;
     public Date deadline;
 
-    public Todo(Boolean completed, String title, String desc, Date deadline, Boolean notice) {
+    public Todo(Boolean completed, String title, String content, Date deadline, Boolean notice) {
         this.completed = completed;
         this.title = title;
-        this.desc = desc;
+        this.content = content;
         this.deadline = deadline;
         this.notice = notice;
     }
@@ -61,8 +61,8 @@ public class Todo {
         this.title = title;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getContent() {
+        return content;
     }
 
     public Boolean getNotice() {
@@ -73,8 +73,8 @@ public class Todo {
         this.notice = notice;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public void setDeadline(Date deadline) {

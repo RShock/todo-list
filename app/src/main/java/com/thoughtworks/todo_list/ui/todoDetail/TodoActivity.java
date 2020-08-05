@@ -12,10 +12,12 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.CheckBox;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.thoughtworks.todo_list.MainApplication;
 import com.thoughtworks.todo_list.R;
-import com.thoughtworks.todo_list.ui.todolist.TodoListViewModel;
 import com.thoughtworks.todo_list.ui.todolist.TodoRepository;
 
 import java.util.Objects;
@@ -23,12 +25,30 @@ import java.util.Objects;
 public class TodoActivity extends AppCompatActivity {
 
     TodoViewModel todoViewModel;
+    CheckBox completed;
+    Switch notice;
+    TextView title;
+    TextView content;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
         addToolBar();
         todoViewModel= obtainViewModel();
+        completed = findViewById(R.id.checkbox);
+        notice = findViewById(R.id.notice);
+        title = findViewById(R.id.todoTitle);
+        content = findViewById(R.id.content);
+        todoViewModel.observeTodo(this, todo -> {
+            if (todo == null) {
+                return;
+            }
+            completed.setChecked(todo.getCompleted());
+            title.setText(todo.getTitle());
+            content.setText(todo.getContent());
+
+        });
     }
 
     private TodoViewModel obtainViewModel() {

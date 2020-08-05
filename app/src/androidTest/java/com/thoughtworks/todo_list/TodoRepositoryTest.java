@@ -8,9 +8,6 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.thoughtworks.todo_list.repository.AppDatabase;
 import com.thoughtworks.todo_list.repository.todo.TodoRepositoryImpl;
 import com.thoughtworks.todo_list.repository.todo.entity.Todo;
-import com.thoughtworks.todo_list.repository.user.UserRepositoryImpl;
-import com.thoughtworks.todo_list.repository.user.entity.User;
-import com.thoughtworks.todo_list.ui.login.UserRepository;
 import com.thoughtworks.todo_list.ui.todolist.TodoRepository;
 
 import org.junit.After;
@@ -48,7 +45,7 @@ public class TodoRepositoryTest {
     public void should_find_correct_user() {
         Todo savedTodo = new Todo();
         savedTodo.setCompleted(true);
-        savedTodo.setDesc("description");
+        savedTodo.setContent("description");
         savedTodo.setId(1);
         appDatabase.todoDBDataSource().save(savedTodo).subscribeOn(Schedulers.io()).subscribe();
         todoRepository.queryTodoList().test()
