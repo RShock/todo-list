@@ -11,4 +11,6 @@ public interface TodoDataSource {
     Maybe<List<Todo>> queryTodoList();
 
     Completable save(Todo todo);
+
+    Maybe<Todo> queryTodoById(int id);
 }

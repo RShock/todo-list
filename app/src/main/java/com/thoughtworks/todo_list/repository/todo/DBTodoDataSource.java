@@ -24,4 +24,6 @@ public interface DBTodoDataSource extends TodoDataSource{
     @Insert(onConflict = REPLACE)
     Completable save(Todo todo);
 
+    @Query("SELECT * FROM todo where id = :id")
+    Maybe<Todo> queryTodoById(int id);
 }

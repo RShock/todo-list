@@ -23,6 +23,11 @@ public class TodoRepositoryImpl implements TodoRepository {
     }
 
     @Override
+    public Maybe<Todo> queryTodoById(int id) {
+        return todoDataSource.queryTodoById(id);
+    }
+
+    @Override
     public Completable save(Todo todo) {
         return todoDataSource.save(todo);
     }

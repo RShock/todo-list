@@ -1,5 +1,6 @@
 package com.thoughtworks.todo_list.ui.todolist;
 
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -16,9 +17,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.thoughtworks.todo_list.MainApplication;
 import com.thoughtworks.todo_list.R;
 import com.thoughtworks.todo_list.repository.todo.entity.Todo;
+import com.thoughtworks.todo_list.repository.todo.entity.TodoList;
 import com.thoughtworks.todo_list.ui.login.LoginViewModel;
 import com.thoughtworks.todo_list.ui.login.UserRepository;
+import com.thoughtworks.todo_list.ui.todoDetail.TodoActivity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +50,13 @@ public class HomeActivity extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
-
+        TodolistAdapter todolistAdapter = new TodolistAdapter(new TodoList());
+        recyclerView.setAdapter(todolistAdapter);
+        todolistAdapter.setOnItemClick((v, pos, id) -> {
+            Intent intent = new Intent(HomeActivity.this, TodoActivity.class);
+            intent.putExtra("id", id);
+            startActivity(intent);
+        });
 
         addToolBar();
         addDivider();
@@ -55,8 +65,9 @@ public class HomeActivity extends AppCompatActivity {
             if (todoList == null) {
                 return;
             }
+            todolistAdapter.setList(todoList);
             // 任何变动都应该刷新待办列表
-            recyclerView.setAdapter(new TodolistAdapter(todoList));
+            todolistAdapter.notifyDataSetChanged();
             //TODO: I18n
             todoCount.setText(String.format("%s%s",todoList.size(),"个任务"));
         });

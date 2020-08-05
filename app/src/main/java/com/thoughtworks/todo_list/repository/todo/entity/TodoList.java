@@ -13,6 +13,9 @@ public class TodoList {
         this.todoList = todoList;
     }
 
+    public TodoList() {
+    }
+
     public int size() {
         if (todoList == null) return 0;
         return todoList.size();

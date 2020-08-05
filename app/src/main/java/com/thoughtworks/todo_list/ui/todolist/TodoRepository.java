@@ -11,5 +11,7 @@ import io.reactivex.Maybe;
 public interface TodoRepository {
     Maybe<List<Todo>> queryTodoList();
 
+    Maybe<Todo> queryTodoById(int id);
+
     Completable save(Todo todo);
 }
