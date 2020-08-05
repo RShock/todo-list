@@ -2,6 +2,7 @@ package com.thoughtworks.todo_list.ui.todolist;
 
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.thoughtworks.todo_list.MainApplication;
 import com.thoughtworks.todo_list.R;
 import com.thoughtworks.todo_list.repository.todo.entity.Todo;
@@ -26,6 +28,7 @@ public class HomeActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
+    FloatingActionButton floatingActionButton;
     private TodoListViewModel todoListViewModel;
 
     @Override
@@ -37,20 +40,27 @@ public class HomeActivity extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
-        recyclerView.setAdapter(new TodolistAdapter(getMockTodo()));
+
 
         addToolBar();
         addDivider();
+
+
+        todoListViewModel.observeTodoList(this, todoList -> {
+            if (todoList == null) {
+                return;
+            }
+            // 任何变动都应该刷新待办列表
+            recyclerView.setAdapter(new TodolistAdapter(todoList.todoList));
+        });
+
+        floatingActionButton = findViewById(R.id.addTodo);
+        floatingActionButton.setOnClickListener(view -> {
+            todoListViewModel.initTodoList();
+            // Toast.makeText(this, "test", Toast.LENGTH_LONG).show();
+        });
     }
 
-    private List<Todo> getMockTodo() {
-        Todo todo1 = new Todo(true, "todo1", "azaa", Calendar.getInstance().getTime());
-        Todo todo2 = new Todo(true, "todo2", "BBBB", Calendar.getInstance().getTime());
-        Todo todo3 = new Todo(true, "todo3", "BBBB", Calendar.getInstance().getTime());
-        Todo todo4 = new Todo(true, "todo4", "BBBB", Calendar.getInstance().getTime());
-        Todo todo5 = new Todo(true, "todo5", "BBBB", Calendar.getInstance().getTime());
-        return Arrays.asList(todo1,todo2,todo3,todo4,todo5);
-    }
     private void addToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
