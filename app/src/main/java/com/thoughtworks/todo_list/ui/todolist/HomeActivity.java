@@ -65,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
 
         floatingActionButton.setOnClickListener(view -> {
             todoListViewModel.addTodo(new Todo(false,"1","title",Calendar.getInstance().getTime(),true));
+            todoListViewModel.addTodo(new Todo(false,"2","title2",Calendar.getInstance().getTime(),true));
             // Toast.makeText(this, "test", Toast.LENGTH_LONG).show();
         });
     }

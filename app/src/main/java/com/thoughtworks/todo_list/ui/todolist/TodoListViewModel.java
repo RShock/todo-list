@@ -37,14 +37,15 @@ public class TodoListViewModel extends ViewModel {
         compositeDisposable.add(d);
     }
 
-    private List<Todo> tmpTodoList;
     public void initTodoList() {
         Disposable d = todoRepository.queryTodoList()
                 .subscribeOn(Schedulers.io())
-                .subscribe(todoList -> tmpTodoList = todoList,
-                        throwable -> Log.e("TodoListViewModel", Objects.requireNonNull(throwable.getMessage())));
+                .subscribe(list -> {
+                    todoList.postValue(new TodoList(list));
+                    },
+                    throwable -> Log.e("TodoListViewModel", Objects.requireNonNull(throwable.getMessage())));
         compositeDisposable.add(d);
-        todoList.setValue(new TodoList(tmpTodoList));
+
     }
 
     public void onDestroy() {

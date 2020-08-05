@@ -1,7 +1,6 @@
 package com.thoughtworks.todo_list.repository.todo;
 
 import com.thoughtworks.todo_list.repository.todo.entity.Todo;
-import com.thoughtworks.todo_list.repository.todo.entity.TodoList;
 
 import java.util.List;
 

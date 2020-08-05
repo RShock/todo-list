@@ -12,7 +12,7 @@ import java.util.Locale;
 
 @Entity
 public class Todo {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
     private int id;
     private Boolean completed;
