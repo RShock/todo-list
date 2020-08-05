@@ -20,6 +20,7 @@ import com.thoughtworks.todo_list.ui.login.LoginViewModel;
 import com.thoughtworks.todo_list.ui.login.UserRepository;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,19 +51,20 @@ public class HomeActivity extends AppCompatActivity {
         addToolBar();
         addDivider();
 
-
         todoListViewModel.observeTodoList(this, todoList -> {
             if (todoList == null) {
                 return;
             }
             // 任何变动都应该刷新待办列表
-            recyclerView.setAdapter(new TodolistAdapter(todoList.todoList));
+            recyclerView.setAdapter(new TodolistAdapter(todoList));
             //TODO: I18n
-            todoCount.setText(String.format("%s%s",todoList.todoList.size(),"个任务"));
+            todoCount.setText(String.format("%s%s",todoList.size(),"个任务"));
         });
 
+        todoListViewModel.initTodoList();
+
         floatingActionButton.setOnClickListener(view -> {
-            todoListViewModel.initTodoList();
+            todoListViewModel.addTodo(new Todo(false,"1","title",Calendar.getInstance().getTime(),true));
             // Toast.makeText(this, "test", Toast.LENGTH_LONG).show();
         });
     }
@@ -84,5 +86,11 @@ public class HomeActivity extends AppCompatActivity {
         todoListViewModel = new ViewModelProvider(this).get(TodoListViewModel.class);
         todoListViewModel.setTodoRepository(todoRepository);
         return todoListViewModel;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        todoListViewModel.onDestroy();
     }
 }

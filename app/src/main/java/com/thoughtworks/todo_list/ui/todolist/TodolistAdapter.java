@@ -10,14 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.thoughtworks.todo_list.R;
 import com.thoughtworks.todo_list.repository.todo.entity.Todo;
+import com.thoughtworks.todo_list.repository.todo.entity.TodoList;
 
 import java.util.List;
 
 public class TodolistAdapter extends RecyclerView.Adapter<TodolistAdapter.TodoItemHolder> {
 
-    private List<Todo> mList;//数据源
+    private TodoList mList;//数据源
 
-    TodolistAdapter(List list) {
+    TodolistAdapter(TodoList list) {
         mList = list;
     }
 
@@ -30,9 +31,9 @@ public class TodolistAdapter extends RecyclerView.Adapter<TodolistAdapter.TodoIt
 
     @Override
     public void onBindViewHolder(TodoItemHolder holder, int position) {
-        Todo todo = mList.get(position);
-        holder.completed.setChecked(todo.completed);
-        holder.title.setText(todo.title);
+        Todo todo = mList.get().get(position);
+        holder.completed.setChecked(todo.getCompleted());
+        holder.title.setText(todo.getTitle());
         holder.time.setText(todo.getDeadline());
     }
 
