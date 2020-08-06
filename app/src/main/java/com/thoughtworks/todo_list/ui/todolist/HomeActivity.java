@@ -3,6 +3,7 @@ package com.thoughtworks.todo_list.ui.todolist;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,14 +76,12 @@ public class HomeActivity extends AppCompatActivity {
         todoListViewModel.initTodoList();
 
         floatingActionButton.setOnClickListener(view -> {
-            todoListViewModel.addTodo(new Todo(false,"1","title",Calendar.getInstance().getTime(),true));
-            todoListViewModel.addTodo(new Todo(false,"2","title2",Calendar.getInstance().getTime(),true));
-            // Toast.makeText(this, "test", Toast.LENGTH_LONG).show();
+            todoListViewModel.addTodo(new Todo(false,"new","",Calendar.getInstance().getTime(),true));
         });
     }
 
     private void addToolBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
     }

@@ -12,14 +12,20 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.thoughtworks.todo_list.MainApplication;
 import com.thoughtworks.todo_list.R;
 import com.thoughtworks.todo_list.ui.todolist.TodoRepository;
 
+import java.time.Duration;
+import java.util.Date;
 import java.util.Objects;
 
 public class TodoActivity extends AppCompatActivity {
@@ -29,6 +35,8 @@ public class TodoActivity extends AppCompatActivity {
     Switch notice;
     TextView title;
     TextView content;
+    Button saveTodo;
+    Button cancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,8 @@ public class TodoActivity extends AppCompatActivity {
         notice = findViewById(R.id.notice);
         title = findViewById(R.id.todoTitle);
         content = findViewById(R.id.content);
+        saveTodo = findViewById(R.id.saveTodo);
+        cancel = findViewById(R.id.cancel);
         todoViewModel.observeTodo(this, todo -> {
             if (todo == null) {
                 return;
@@ -47,7 +57,13 @@ public class TodoActivity extends AppCompatActivity {
             completed.setChecked(todo.getCompleted());
             title.setText(todo.getTitle());
             content.setText(todo.getContent());
-
+        });
+        cancel.setOnClickListener(view -> finish());
+        saveTodo.setOnClickListener(view -> {
+            todoViewModel.saveTodo(title.getText().toString(),
+                    content.getText().toString(),completed.isChecked(), notice.isChecked(),
+                    new Date());
+            Toast.makeText(this, "saved", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -59,11 +75,12 @@ public class TodoActivity extends AppCompatActivity {
         todoViewModel.setTodoRepository(todoRepository);
         todoViewModel.setId(id);
         todoViewModel.initTodo();
+
         return todoViewModel;
     }
 
     private void addToolBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -78,5 +95,12 @@ public class TodoActivity extends AppCompatActivity {
                 getSupportActionBar().setHomeAsUpIndicator(upArrow);
             }
         }
+        toolbar.setNavigationOnClickListener(v -> finish());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        todoViewModel.onDestroy();
     }
 }
