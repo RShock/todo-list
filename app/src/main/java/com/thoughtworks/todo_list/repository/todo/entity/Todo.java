@@ -5,6 +5,7 @@ import android.icu.text.SimpleDateFormat;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
@@ -21,6 +22,7 @@ public class Todo {
     private Boolean notice;
     public Date deadline;
 
+    @Ignore
     public Todo(Boolean completed, String title, String content, Date deadline, Boolean notice) {
         this.completed = completed;
         this.title = title;

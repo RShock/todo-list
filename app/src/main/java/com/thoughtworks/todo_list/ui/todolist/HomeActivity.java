@@ -3,9 +3,7 @@ package com.thoughtworks.todo_list.ui.todolist;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,14 +17,8 @@ import com.thoughtworks.todo_list.MainApplication;
 import com.thoughtworks.todo_list.R;
 import com.thoughtworks.todo_list.repository.todo.entity.Todo;
 import com.thoughtworks.todo_list.repository.todo.entity.TodoList;
-import com.thoughtworks.todo_list.ui.login.LoginViewModel;
-import com.thoughtworks.todo_list.ui.login.UserRepository;
 import com.thoughtworks.todo_list.ui.todoDetail.TodoActivity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
@@ -53,6 +45,8 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(llm);
         TodolistAdapter todolistAdapter = new TodolistAdapter(new TodoList());
         recyclerView.setAdapter(todolistAdapter);
+
+        //TODO: view不应该涉及逻辑
         todolistAdapter.setOnItemClick((v, pos, id) -> {
             Intent intent = new Intent(HomeActivity.this, TodoActivity.class);
             intent.putExtra("id", id);
@@ -73,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
             todoCount.setText(String.format("%s%s",todoList.size(),"个任务"));
         });
 
-        todoListViewModel.initTodoList();
+        todoListViewModel.updateTodoList();
 
         floatingActionButton.setOnClickListener(view -> {
             todoListViewModel.addTodo(new Todo(false,"new","",Calendar.getInstance().getTime(),true));
@@ -96,6 +90,7 @@ public class HomeActivity extends AppCompatActivity {
         TodoRepository todoRepository = (((MainApplication) getApplicationContext())).todoRepository();
         todoListViewModel = new ViewModelProvider(this).get(TodoListViewModel.class);
         todoListViewModel.setTodoRepository(todoRepository);
+        todoListViewModel.init();
         return todoListViewModel;
     }
 

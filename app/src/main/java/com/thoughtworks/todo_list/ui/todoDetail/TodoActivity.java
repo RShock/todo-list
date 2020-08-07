@@ -60,10 +60,11 @@ public class TodoActivity extends AppCompatActivity {
         });
         cancel.setOnClickListener(view -> finish());
         saveTodo.setOnClickListener(view -> {
-            todoViewModel.saveTodo(title.getText().toString(),
+            todoViewModel.saveTodo(view, title.getText().toString(),
                     content.getText().toString(),completed.isChecked(), notice.isChecked(),
                     new Date());
             Toast.makeText(this, "saved", Toast.LENGTH_SHORT).show();
+
         });
     }
 

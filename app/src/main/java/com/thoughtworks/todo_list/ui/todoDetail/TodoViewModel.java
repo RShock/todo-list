@@ -1,15 +1,16 @@
 package com.thoughtworks.todo_list.ui.todoDetail;
 
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
+import com.kelin.mvvmlight.messenger.Messenger;
+import com.thoughtworks.todo_list.common.Constant;
 import com.thoughtworks.todo_list.repository.todo.entity.Todo;
-import com.thoughtworks.todo_list.repository.todo.entity.TodoList;
 import com.thoughtworks.todo_list.ui.todolist.TodoRepository;
 
 import java.util.Date;
@@ -52,11 +53,13 @@ public class TodoViewModel extends ViewModel {
         this.id = id;
     }
 
-    public void saveTodo(String title, String content, boolean completed,
+    public void saveTodo(View view, String title, String content, boolean completed,
                          boolean notice, Date deadline) {
         Todo todo = new Todo(completed, title, content, deadline, notice);
         todo.setId(Objects.requireNonNull(this.todo.getValue()).getId());
-        todoRepository.save(todo);
+        Disposable subscribe = todoRepository.save(todo).subscribeOn(Schedulers.io()).subscribe(() -> {
+            Messenger.getDefault().sendNoMsg(Constant.MessengerToken.UPDATE_TODO_LIST);
+        });
+        compositeDisposable.add(subscribe);
     }
-
 }

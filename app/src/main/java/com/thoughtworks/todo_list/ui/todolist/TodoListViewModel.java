@@ -7,10 +7,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
+import com.kelin.mvvmlight.messenger.Messenger;
+import com.thoughtworks.todo_list.common.Constant;
 import com.thoughtworks.todo_list.repository.todo.entity.Todo;
 import com.thoughtworks.todo_list.repository.todo.entity.TodoList;
 
-import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -33,11 +34,11 @@ public class TodoListViewModel extends ViewModel {
     }
 
     void addTodo(Todo todo) {
-        Disposable d = todoRepository.save(todo).subscribeOn(Schedulers.io()).subscribe(this::initTodoList);
+        Disposable d = todoRepository.save(todo).subscribeOn(Schedulers.io()).subscribe(this::updateTodoList);
         compositeDisposable.add(d);
     }
 
-    public void initTodoList() {
+    public void updateTodoList() {
         Disposable d = todoRepository.queryTodoList()
                 .subscribeOn(Schedulers.io())
                 .subscribe(list -> {
@@ -46,6 +47,11 @@ public class TodoListViewModel extends ViewModel {
                     throwable -> Log.e("TodoListViewModel", Objects.requireNonNull(throwable.getMessage())));
         compositeDisposable.add(d);
 
+    }
+
+    public void init() {
+        Messenger.getDefault().register(this, Constant.MessengerToken.UPDATE_TODO_LIST,
+                this::updateTodoList);
     }
 
     public void onDestroy() {
